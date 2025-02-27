@@ -5,6 +5,8 @@ import numpy as np
 import matplotlib.patches as patches
 from math import sqrt,cos,sin,atan2,atan,exp,tan,pi
 from matplotlib.animation import FuncAnimation
+import json
+import os
 
 # plt.rcParams.update({
 #     "text.usetex": True,
@@ -13,6 +15,7 @@ from matplotlib.animation import FuncAnimation
 
 
 # Unicycle Plotting and Animation ----------------------------------------------------------------
+
 def body_points_unicycle(state,width=0.5,length=0.6):
     '''
     Create a list of points representing the body
@@ -590,25 +593,18 @@ plt.rcParams['text.usetex'] = True
 if __name__ == "__main__":  
     # [ fig parameter setup ] ------------------------------
     sim_time = 10
-    data_label = 'paper2sim3'
-    if_trajectory_tracking = True
+    data_label = 'demo1'
+    if_trajectory_tracking = False
     if_animation = True
     # --------------------------------------------------------
 
-    # define folder path
-    from pathlib import Path
-    folder_path = Path("./fig/"+data_label)
-    folder_path.mkdir(parents=True, exist_ok=True)
+    # create folder for figure
+    folder_path = f"./fig/{data_label}"
+    os.makedirs(folder_path, exist_ok=True) 
 
     # read motion data
-    trajectory_data = np.load('./log/'+data_label+'/trajectory.npy')
-    distance_err = np.loadtxt('./log/'+data_label+'/distance_error.txt')
-    orientation_err = np.loadtxt('./log/'+data_label+'/orientation_error.txt')
-    edge_list = np.loadtxt('./log/'+data_label+'/edge_list.txt',dtype=int)
-
-    if if_trajectory_tracking:
-        tracking_err = np.loadtxt('./log/'+data_label+'/tracking_error.txt')
-        target_trajectory = np.loadtxt('./log/'+data_label+'/target_trajectory.txt')
+    with open(f'./log/{data_label}.json', "r") as f:
+        data = json.load(f)  
 
     # output fig name
     preffix = './fig/'+data_label+'/'
@@ -626,22 +622,22 @@ if __name__ == "__main__":
 
     # 1 trajectory
     Plot_Trajectory('SI',
-                    trajectory_data,
-                    color_list,label_list,edge_list,drawtime_list,
+                    data['trajectory'],
+                    color_list,label_list,data['edge_list'],drawtime_list,
                     # trajectory_width=0.6,point_size=0.6,
                     target_trajectory=\
-                        target_trajectory if if_trajectory_tracking else None,
+                        data['target_trajectory'] if if_trajectory_tracking else None,
                     pltrange_xy = [-19,64,-14,29],
                     if_label=True,
                     Show=False,
                     SavePath=preffix+'tra'+suffix+'.png' )
 
     # 2 distance error
-    label_list = [ 'x' for a in range(len(distance_err)-1) ]
+    label_list = [ 'x' for a in range(len(data['distance_error'])-1) ]
     label_list.append(r'$\|p_{ij}\|-d_{ij}$')
     print(label_list)
 
-    plot_err(distance_err,
+    plot_err(data['distance_error'],
              xy_label=['Time (s)','Distance error'],
              line_width=0.8,
              plt_label=label_list,
@@ -652,7 +648,7 @@ if __name__ == "__main__":
 
     # 3 normalized error 
     sigma_list = np.array([])
-    distance_err = np.array(distance_err)
+    distance_err = np.array(data['distance_error'])
     for i in range(len(distance_err[0])):
         err = distance_err[:,i]
         sigma_list = np.append(sigma_list, np.linalg.norm(err))
@@ -672,7 +668,7 @@ if __name__ == "__main__":
     # 4 orientation error
     label = [r'$\left\| p_o-p^*_o(t) \right\|$']
     print(label)
-    plot_err([orientation_err],
+    plot_err([data['orientation_error']],
              xy_label=['Time (s)','Orientation error'],
              line_width=0.8,
              plt_label=label,
@@ -685,7 +681,7 @@ if __name__ == "__main__":
     if if_trajectory_tracking:
         label = [r'$\| p_1-p^*(t) \|$']
         print(label)
-        plot_err([tracking_err],
+        plot_err(data['tracking_error'],
                 xy_label=['Time (s)','Tracking error'],
                 line_width=0.8,
                 plt_label=label,
@@ -697,11 +693,11 @@ if __name__ == "__main__":
     # 6 Animation
     if if_animation:
         Animation_motion('SI',
-                        trajectory_data,color_list,label_list,edge_list,
+                        data['trajectory'],color_list,label_list,data['edge_list'],
                         trajectory_width=0.6,
                         point_size=0.6,
                         target_trajectory=\
-                            target_trajectory if if_trajectory_tracking else None,
+                            data['target_trajectory'] if if_trajectory_tracking else None,
                         Show=False,
                         SavePath=preffix+'ani'+suffix+'.gif')
 

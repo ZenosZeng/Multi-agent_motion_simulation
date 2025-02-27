@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 from math import cos,sin,pi,sqrt,atan2
 import math
 import sys
+import json
 
 from Model import Single_Integrator as SI
 import Ploting as pt
@@ -130,6 +131,16 @@ print('-'*30)
 print('init done.')
 print('-'*30)
 
+
+
+
+
+
+
+
+
+
+
 # 2 motion simulation -------------------------------------------------------------------
 
 for step in range(total_step):
@@ -244,18 +255,28 @@ print('-'*30)
 print('Motion Calculated.')
 print('-'*30)
 
-# save motion data to ./log
 
-data_label = 'paper2sim1.1'
 
-from pathlib import Path
-folder_path = Path("./log/"+data_label)
-folder_path.mkdir(parents=True, exist_ok=True)
 
-np.save('./log/'+data_label+'/trajectory.npy',np.array(trajectory_data))
-np.savetxt('./log/'+data_label+'/distance_error.txt',np.array(distance_err))
-np.savetxt('./log/'+data_label+'/orientation_error.txt',np.array(orientation_err))
-np.savetxt('./log/'+data_label+'/edge_list.txt',np.array(edge_list),fmt='%d')
+
+
+
+
+
+ # 3 save data to json ----------------------------------------------------------   
+
+data_label = 'demo1'
+
+results = {
+    "trajectory": np.array(trajectory_data).tolist(),
+    "distance_error": np.array(distance_err).tolist(),
+    "orientation_error": np.array(orientation_err).tolist(),
+    "edge_list": np.array(edge_list).tolist()
+}
+ 
+# 存入 JSON
+with open('./log/'+data_label+".json", "w") as f:
+    json.dump(results, f, indent=4)
 
 print('Data saved, View <./log/'+data_label+'> for details.')
 print('-'*30)
