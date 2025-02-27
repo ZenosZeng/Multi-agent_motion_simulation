@@ -1,5 +1,3 @@
-# 复现论文
-
 import numpy as np
 from matplotlib import pyplot as plt
 from math import cos,sin,pi,sqrt,atan2
