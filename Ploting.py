@@ -88,114 +88,114 @@ def wheel_points_unicycle(body_point,theta,width=0.1,length=0.2):
     return wheel_points_rear_left,wheel_points_rear_right
 
 
-# def Unicycle_Animation(data,color_list,label_list, # abandoned!!!
-#                        edge_list,
-#                        if_label=False,
-#                        trajectory_width = 0.8,
-#                        point_size=0.5,
-#                        Show=True,SavePath='ANI.gif'):
-#     '''
-#     Animation function for unicycle motion
-#     !! the data frequency must be 50Hz !!
-#     Input as follows:
-#     data--a list of agent data with 3 dimensions (agent-dimension-value along time)
-#     timestep-- 1/frequency(Hz)
-#     color_list--a list of color for each agent
-#     label_list--a list of label for each agent
-#     '''
-#     num_agent = len(data)
-#     dimension = len(data[0])
-#     total_step = len(data[0][0])
+def Unicycle_Animation(data,color_list,label_list, # abandoned!!!
+                       edge_list,
+                       if_label=False,
+                       trajectory_width = 0.8,
+                       point_size=0.5,
+                       Show=True,SavePath='ANI.gif'):
+    '''
+    Animation function for unicycle motion
+    !! the data frequency must be 50Hz !!
+    Input as follows:
+    data--a list of agent data with 3 dimensions (agent-dimension-value along time)
+    timestep-- 1/frequency(Hz)
+    color_list--a list of color for each agent
+    label_list--a list of label for each agent
+    '''
+    num_agent = len(data)
+    dimension = len(data[0])
+    total_step = len(data[0][0])
 
-#     # slice_ratio = int(1/timestep/50)
-#     # # slice the data
-#     # for i in range(num_agent):
-#     #     for j in range(dimension):
-#     #         data[i][j] = data[i][j][::slice_ratio]
+    # slice_ratio = int(1/timestep/50)
+    # # slice the data
+    # for i in range(num_agent):
+    #     for j in range(dimension):
+    #         data[i][j] = data[i][j][::slice_ratio]
 
-#     # print('Original Data Frequency: '+str(int(1/timestep)))
-#     # print('Animation Slice Ratio: '+str(int(slice_ratio)))
-#     # print('Animation Frequency: 50Hz')        
-#     # print('Trajectory data length: '+str(len(data[0][0])))
+    # print('Original Data Frequency: '+str(int(1/timestep)))
+    # print('Animation Slice Ratio: '+str(int(slice_ratio)))
+    # print('Animation Frequency: 50Hz')        
+    # print('Trajectory data length: '+str(len(data[0][0])))
 
-#     fig, ax = plt.subplots(figsize=(8,6))
-#     ax.set_aspect(1)
-#     ax.set_xlabel('x/m')
-#     ax.set_ylabel('y/m')
-#     ax.legend()
+    fig, ax = plt.subplots(figsize=(8,6))
+    ax.set_aspect(1)
+    ax.set_xlabel('x/m')
+    ax.set_ylabel('y/m')
+    ax.legend()
 
-#     line=[ 0 for i in range(num_agent) ]
-#     body=[ 0 for i in range(num_agent) ]
-#     wheel=[ [0,0] for i in range(num_agent) ]
-#     edge = [ 0 for i in range(len(edge_list)) ]
+    line=[ 0 for i in range(num_agent) ]
+    body=[ 0 for i in range(num_agent) ]
+    wheel=[ [0,0] for i in range(num_agent) ]
+    edge = [ 0 for i in range(len(edge_list)) ]
 
-#     t=0
-#     for i in range(num_agent):
-#         # trajectory
-#         line[i]=ax.plot(data[i][0][:t],data[i][1][:t],\
-#                         color=color_list[i],label=label_list[i],linewidth=trajectory_width)
-#         # body
-#         body_point = body_points_unicycle([data[i][0][t],data[i][1][t],data[i][2][t]])
-#         body[i] = patches.Polygon(body_point, closed=True,lw=point_size, edgecolor=color_list[i], facecolor='none')
-#         ax.add_artist(body[i])
-#         # wheel
-#         wheel_point_1,wheel_point_2 = wheel_points_unicycle(body_point,data[i][2][t])
-#         wheel[i][0] = patches.Polygon(wheel_point_1, closed=True,lw=point_size, \
-#                                 edgecolor=color_list[i], facecolor=color_list[i])
-#         wheel[i][1] = patches.Polygon(wheel_point_2, closed=True,lw=point_size, \
-#                                 edgecolor=color_list[i], facecolor=color_list[i])
-#         ax.add_artist(wheel[i][0])
-#         ax.add_artist(wheel[i][1])
+    t=0
+    for i in range(num_agent):
+        # trajectory
+        line[i]=ax.plot(data[i][0][:t],data[i][1][:t],\
+                        color=color_list[i],label=label_list[i],linewidth=trajectory_width)
+        # body
+        body_point = body_points_unicycle([data[i][0][t],data[i][1][t],data[i][2][t]])
+        body[i] = patches.Polygon(body_point, closed=True,lw=point_size, edgecolor=color_list[i], facecolor='none')
+        ax.add_artist(body[i])
+        # wheel
+        wheel_point_1,wheel_point_2 = wheel_points_unicycle(body_point,data[i][2][t])
+        wheel[i][0] = patches.Polygon(wheel_point_1, closed=True,lw=point_size, \
+                                edgecolor=color_list[i], facecolor=color_list[i])
+        wheel[i][1] = patches.Polygon(wheel_point_2, closed=True,lw=point_size, \
+                                edgecolor=color_list[i], facecolor=color_list[i])
+        ax.add_artist(wheel[i][0])
+        ax.add_artist(wheel[i][1])
     
-#     for i in range(len(edge_list)): # connection line between agent
-#         a,b = edge_list[i]  
-#         x = [data[a][0][t],data[b][0][t]]
-#         y = [data[a][1][t],data[b][1][t]]
-#         edge[i]=ax.plot(x,y,color='grey',linestyle='dashed',
-#                 linewidth=point_size)
+    for i in range(len(edge_list)): # connection line between agent
+        a,b = edge_list[i]  
+        x = [data[a][0][t],data[b][0][t]]
+        y = [data[a][1][t],data[b][1][t]]
+        edge[i]=ax.plot(x,y,color='grey',linestyle='dashed',
+                linewidth=point_size)
 
-#     def update(t):
-#         # t += timestep   
-#         ax.legend()
-#         ax.set_title('Trajectory {:.1f}s'.format(t/50))
-#         x_ave,y_ave = 0,0
+    def update(t):
+        # t += timestep   
+        ax.legend()
+        ax.set_title('Trajectory {:.1f}s'.format(t/50))
+        x_ave,y_ave = 0,0
 
-#         for i in range(num_agent):
-#             line[i][0].set_data(data[i][0][:t],data[i][1][:t])
-#             x_ave += data[i][0][t]
-#             y_ave += data[i][1][t]
+        for i in range(num_agent):
+            line[i][0].set_data(data[i][0][:t],data[i][1][:t])
+            x_ave += data[i][0][t]
+            y_ave += data[i][1][t]
 
-#             body_point = body_points_unicycle([data[i][0][t],data[i][1][t],data[i][2][t]])
-#             body[i].set_xy(body_point)
+            body_point = body_points_unicycle([data[i][0][t],data[i][1][t],data[i][2][t]])
+            body[i].set_xy(body_point)
             
-#             wheel_point_1,wheel_point_2 = wheel_points_unicycle(body_point,data[i][2][t])
-#             wheel[i][0].set_xy(wheel_point_1)
-#             wheel[i][1].set_xy(wheel_point_2)
+            wheel_point_1,wheel_point_2 = wheel_points_unicycle(body_point,data[i][2][t])
+            wheel[i][0].set_xy(wheel_point_1)
+            wheel[i][1].set_xy(wheel_point_2)
         
-#         x_ave /= num_agent
-#         y_ave /= num_agent
-#         ax.set_xlim(x_ave-15,x_ave+15)
-#         ax.set_ylim(y_ave-15,y_ave+15)
-#         # plt.grid(True)
+        x_ave /= num_agent
+        y_ave /= num_agent
+        ax.set_xlim(x_ave-15,x_ave+15)
+        ax.set_ylim(y_ave-15,y_ave+15)
+        # plt.grid(True)
 
-#         for i in range(len(edge_list)):
-#             a,b = edge_list[i]  
-#             x = [data[a][0][t],data[b][0][t]]
-#             y = [data[a][1][t],data[b][1][t]]
-#             edge[i][0].set_data(x,y)
+        for i in range(len(edge_list)):
+            a,b = edge_list[i]  
+            x = [data[a][0][t],data[b][0][t]]
+            y = [data[a][1][t],data[b][1][t]]
+            edge[i][0].set_data(x,y)
 
-#         return line,body,edge
+        return line,body,edge
 
-#     from matplotlib.animation import FuncAnimation
-#     ani=FuncAnimation(fig,update,interval=20,frames=int(total_step))
-#     if Show:
-#         plt.show()
-#     else:
-#         ani.save(SavePath)
-#     plt.close()
+    from matplotlib.animation import FuncAnimation
+    ani=FuncAnimation(fig,update,interval=20,frames=int(total_step))
+    if Show:
+        plt.show()
+    else:
+        ani.save(SavePath)
+    plt.close()
 
-#     print('animation done.')
-#     print('-'*30)
+    print('animation done.')
+    print('-'*30)
 
 
 
@@ -285,6 +285,7 @@ def wheel_points_unicycle(body_point,theta,width=0.1,length=0.2):
 def Plot_Trajectory(agent_type,
                     data,
                     color_list,label_list,edge_list,drawtime_list,
+                    offset=None,
                     target_trajectory=None,
                     trajectory_width=0.4,point_size=0.6,
                     pltrange_xy = [],
@@ -303,7 +304,8 @@ def Plot_Trajectory(agent_type,
         # trajectory
         if label_list[i] != 'x':
             ax.plot(data[i][0],data[i][1],
-                    color=color_list[i],label=label_list[i],linewidth=trajectory_width)
+                    color=color_list[i],label=label_list[i],
+                    linewidth=trajectory_width)
         else:
             ax.plot(data[i][0],data[i][1],
                     color=color_list[i],linewidth=trajectory_width)
@@ -324,10 +326,18 @@ def Plot_Trajectory(agent_type,
         for a,b in edge_list:
             if t==0:
                 continue 
-            x = [data[a][0][t],data[b][0][t]]
-            y = [data[a][1][t],data[b][1][t]]
-            ax.plot(x,y,color='grey',linestyle='dashed',
-                    linewidth=point_size*0.8)
+            if offset==None:
+                x = [data[a][0][t],data[b][0][t]]
+                y = [data[a][1][t],data[b][1][t]]
+                ax.plot(x,y,color='grey',linestyle='dashed',
+                        linewidth=point_size*0.6)
+            else:
+                x = [data[a][0][t]+offset*cos(data[a][2][t]),
+                     data[b][0][t]+offset*cos(data[b][2][t])]
+                y = [data[a][1][t]+offset*sin(data[a][2][t]),
+                     data[b][1][t]+offset*sin(data[b][2][t])]
+                ax.plot(x,y,color='grey',linestyle='dashed',
+                        linewidth=point_size*0.6)
             
         # display agent body
         if agent_type=='SI':
@@ -337,6 +347,25 @@ def Plot_Trajectory(agent_type,
                                     edgecolor=color_list[i],
                                     facecolor='snow')
                 ax.add_artist(body)
+        elif agent_type=='Unicycle':
+            for i in range(num_agent):
+                body_point = body_points_unicycle([data[i][0][t],
+                                                   data[i][1][t],
+                                                   data[i][2][t]])
+                body = patches.Polygon(body_point, closed=True,
+                                        lw = point_size, 
+                                        edgecolor=color_list[i],
+                                        facecolor='none')
+                wheel_point_1,wheel_point_2 = wheel_points_unicycle(body_point,
+                                                                    data[i][2][t])
+                wheel_1 = patches.Polygon(wheel_point_1, closed=True,lw = point_size, 
+                                        edgecolor=color_list[i], facecolor=color_list[i])
+                wheel_2 = patches.Polygon(wheel_point_2, closed=True,lw = point_size, 
+                                        edgecolor=color_list[i], facecolor=color_list[i])
+                ax.add_artist(body)
+                ax.add_artist(wheel_1)
+                ax.add_artist(wheel_2)
+
         else:
             raise Exception('Unknown agent type.')
         
@@ -378,8 +407,9 @@ def Plot_Trajectory(agent_type,
 def Animation_motion(agent_type,
                      data,color_list,label_list,
                      edge_list,
-                     trajectory_width,
-                     point_size,
+                     offset=None,
+                     trajectory_width=0.6,
+                     point_size=0.6,
                      target_trajectory = None,
                      if_label=False,
                      Show=True,
@@ -410,6 +440,7 @@ def Animation_motion(agent_type,
     line = [ 0 for i in range(num_agent) ]
     body = [ 0 for i in range(num_agent) ]
     edge = [ 0 for i in range(len(edge_list)) ]
+    wheel= [ [0,0] for i in range(num_agent) ]
 
     t=0
     for i in range(num_agent):
@@ -422,17 +453,37 @@ def Animation_motion(agent_type,
             body[i] = patches.Circle((data[i][0][t],data[i][1][t]),point_size,
                                 edgecolor=color_list[i],facecolor='snow')
             ax.add_artist(body[i])
+        elif agent_type=='Unicycle':
+            body_point = body_points_unicycle([data[i][0][t],data[i][1][t],data[i][2][t]])
+            body[i] = patches.Polygon(body_point, closed=True,lw=point_size, edgecolor=color_list[i], facecolor='none')
+            ax.add_artist(body[i])
+            # wheel
+            wheel_point_1,wheel_point_2 = wheel_points_unicycle(body_point,data[i][2][t])
+            wheel[i][0] = patches.Polygon(wheel_point_1, closed=True,lw=point_size, \
+                                    edgecolor=color_list[i], facecolor=color_list[i])
+            wheel[i][1] = patches.Polygon(wheel_point_2, closed=True,lw=point_size, \
+                                    edgecolor=color_list[i], facecolor=color_list[i])
+            ax.add_artist(wheel[i][0])
+            ax.add_artist(wheel[i][1])
         else:
             raise Exception('Unknown agent type.')
             
     # display edge between agent
     for i in range(len(edge_list)): 
-        a,b = edge_list[i]  
-        x = [data[a][0][t],data[b][0][t]]
-        y = [data[a][1][t],data[b][1][t]]
-        edge[i]=ax.plot(x,y,color='grey',linestyle='dashed',
-                linewidth=point_size)
-    
+        a,b = edge_list[i]
+        if offset==None:
+            x = [data[a][0][t],data[b][0][t]]
+            y = [data[a][1][t],data[b][1][t]]
+            edge[i]=ax.plot(x,y,color='grey',linestyle='dashed',
+                    linewidth=point_size*0.6)
+        else:
+            x = [data[a][0][t]+offset*cos(data[a][2][t]),
+                    data[b][0][t]+offset*cos(data[b][2][t])]
+            y = [data[a][1][t]+offset*sin(data[a][2][t]),
+                    data[b][1][t]+offset*sin(data[b][2][t])]
+            edge[i]=ax.plot(x,y,color='grey',linestyle='dashed',
+                    linewidth=point_size*0.6)
+
     # display target trajectory
     if target_trajectory is not None:
         tt = ax.plot(target_trajectory[0], target_trajectory[1],
@@ -454,7 +505,15 @@ def Animation_motion(agent_type,
             y_ave += data[i][1][t]
             
             # update body
-            body[i].set_center((data[i][0][t],data[i][1][t]))
+            if agent_type=='SI':
+                body[i].set_center((data[i][0][t],data[i][1][t]))
+            elif agent_type =='Unicycle':
+                body_point = body_points_unicycle([data[i][0][t],data[i][1][t],data[i][2][t]])
+                body[i].set_xy(body_point)
+                
+                wheel_point_1,wheel_point_2 = wheel_points_unicycle(body_point,data[i][2][t])
+                wheel[i][0].set_xy(wheel_point_1)
+                wheel[i][1].set_xy(wheel_point_2)
         
         # update plot range
         x_ave /= num_agent
@@ -466,14 +525,26 @@ def Animation_motion(agent_type,
         # update edge
         for i in range(len(edge_list)):
             a,b = edge_list[i]  
-            x = [data[a][0][t],data[b][0][t]]
-            y = [data[a][1][t],data[b][1][t]]
+            if offset==None:
+                x = [data[a][0][t],data[b][0][t]]
+                y = [data[a][1][t],data[b][1][t]]
+            else:
+                x = [data[a][0][t]+offset*cos(data[a][2][t]),
+                    data[b][0][t]+offset*cos(data[b][2][t])]
+                y = [data[a][1][t]+offset*sin(data[a][2][t]),
+                     data[b][1][t]+offset*sin(data[b][2][t])]
             edge[i][0].set_data(x,y)
         
-        if target_trajectory is not None:
-            return line,body,edge,tt
-        else:
-            return line,body,edge
+        if agent_type=='SI':
+            if target_trajectory is not None:
+                return line,body,edge,tt
+            else:
+                return line,body,edge
+        elif agent_type=='Unicycle':
+            if target_trajectory is not None:
+                return line,body,edge,tt,wheel
+            else:
+                return line,body,edge,wheel
 
     
     ani=FuncAnimation(fig,update,interval=20,frames=int(total_step))

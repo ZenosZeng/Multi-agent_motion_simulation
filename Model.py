@@ -96,3 +96,8 @@ class Unicycle:
         self.state[0] += dot_x*self.dt
         self.state[1] += dot_y*self.dt
         self.state[2] += w*self.dt	
+
+    def output_pos(self,offset):
+        x = self.state[0] + offset*cos(self.state[2])
+        y = self.state[1] + offset*sin(self.state[2])
+        return [x,y] # pos list
