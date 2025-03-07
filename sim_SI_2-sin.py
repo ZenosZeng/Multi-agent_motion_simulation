@@ -169,8 +169,8 @@ def run_motion_simulation(sim_name,sim_time):
 
         # [ v_d(t) design ] ------------------------------------------------
         vx = 5
-        vy = 5*sin(t)
-        dtheta = 1/(sin(t)**2+1)*cos(t)
+        vy = 3*sin(t)
+        dtheta = 1/((3/5*sin(t))**2+1)*3/5*cos(t)
         theta = atan2(vy,vx)
 
         vd = np.array([vx,vy]) 
@@ -280,7 +280,7 @@ def plot_results(sim_name,sim_time,
 
     label_list = ['Leader','Co-Leader','Followers','x','x','x']
 
-    drawtime_list = [3,6.14]
+    drawtime_list = [2.5,5,7.5]
 
     # ploting
 
@@ -291,7 +291,7 @@ def plot_results(sim_name,sim_time,
                     # trajectory_width=0.6,point_size=0.6,
                     target_trajectory=\
                         data['target_trajectory'] if if_trajectory_tracking else None,
-                    pltrange_xy = [-19,64,-14,29],
+                    pltrange_xy = [-19,54,-14,29],
                     if_label=True,
                     Show=False,
                     SavePath=preffix+'tra'+suffix+'.png' )
@@ -379,8 +379,8 @@ def plot_results(sim_name,sim_time,
 if __name__ == "__main__":
     sim_name = 'SI_2'
     sim_time = 10
-    run_motion_simulation(sim_name,sim_time)
+    # run_motion_simulation(sim_name,sim_time)
     plot_results(sim_name,sim_time,
                  if_trajectory_tracking = False,
-                 if_animation = True)
+                 if_animation = False)
 

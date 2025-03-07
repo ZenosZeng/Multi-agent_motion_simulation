@@ -189,7 +189,7 @@ def run_motion_simulation(sim_name,sim_time):
         po=p0-p1 # relative position vector of orientation
         po_d = [bianxin*cos(theta),bianxin*sin(theta)]
         po_d_dot = [-bianxin*sin(theta)*dtheta,bianxin*cos(theta)*dtheta]
-        po_bar = po-po_d # error of p10
+        po_bar = po-po_d # error of p10  
         
         # [ control gain ] ------------------------------------------------
         k = 20 # gain for basic rigid term 

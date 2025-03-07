@@ -184,10 +184,11 @@ def run_motion_simulation(sim_name,sim_time,offset):
         #     dtheta = 0
 
         vx = 5
-        vy = 5*sin(t)
-        dtheta = 1/(sin(t)**2+1)*cos(t)
+        vy = 3*sin(t)
+        dtheta = 1/((3/5*sin(t))**2+1)*3/5*cos(t)
         theta = atan2(vy,vx)
         vd = np.array([vx,vy]) 
+        
         # ---------------------------------------------------------------
         
         p0 = np.array(agent[0].output_pos(offset))
@@ -299,7 +300,7 @@ def plot_results(sim_name,sim_time,offset,
 
     label_list = ['Leader','Co-Leader','Followers','x','x','x']
 
-    drawtime_list = [3,6.14]
+    drawtime_list = [2,5,7.5]
 
     # ploting
 
@@ -310,7 +311,7 @@ def plot_results(sim_name,sim_time,offset,
                     offset=offset,
                     target_trajectory=\
                         data['target_trajectory'] if if_trajectory_tracking else None,
-                    pltrange_xy = [-19,54,-11,32],
+                    pltrange_xy = [-19,54,-11,24],
                     if_label=True,
                     Show=False,
                     SavePath=preffix+'tra'+suffix+'.png' )
@@ -398,8 +399,8 @@ if __name__ == "__main__":
     sim_name = 'unicycle_1'
     sim_time = 10
     offset = 0.6
-    run_motion_simulation(sim_name,sim_time,offset)
+    # run_motion_simulation(sim_name,sim_time,offset)
     plot_results(sim_name,sim_time,offset,
                  if_trajectory_tracking = False,
-                 if_animation = True)
+                 if_animation = False)
 

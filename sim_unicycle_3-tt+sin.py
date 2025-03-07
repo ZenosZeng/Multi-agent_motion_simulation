@@ -178,10 +178,10 @@ def run_motion_simulation(sim_name,sim_time,offset):
         t = time
 
         # [ target trajectory design ] ------------------------------------------------
-        pt = [5*t+5, -5*cos(t)]
-        dpt = [5,5*sin(t)]
+        pt = [5*t+5, -3*cos(t)]
+        dpt = [5,3*sin(t)]
 
-        dtheta = 1/(sin(t)**2+1)*cos(t)
+        dtheta = 1/((3/5*sin(t))**2+1)*3/5*cos(t)
         theta = atan2(dpt[1],dpt[0])
 
         # ---------------------------------------------------------------
@@ -324,7 +324,7 @@ def plot_results(sim_name,sim_time,offset,
                     offset=offset,
                     target_trajectory=\
                         data['target_trajectory'] if if_trajectory_tracking else None,
-                    pltrange_xy = [-19,64,-14,32],
+                    pltrange_xy = [-19,64,-14,26],
                     if_label=True,
                     Show=False,
                     SavePath=preffix+'tra'+suffix+'.png' )

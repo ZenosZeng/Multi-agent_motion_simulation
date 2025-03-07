@@ -171,10 +171,10 @@ def run_motion_simulation(sim_name,sim_time):
         t = time
 
         # [ target trajectory design ] ------------------------------------------------
-        pt = [5*t+5, -5*cos(t)]
-        dpt = [5,5*sin(t)]
+        pt = [5*t+5, -3*cos(t)]
+        dpt = [5,3*sin(t)]
 
-        dtheta = 1/(sin(t)**2+1)*cos(t)
+        dtheta = 1/((3/5*sin(t))**2+1)*3/5*cos(t)
         theta = atan2(dpt[1],dpt[0])
         # ---------------------------------------------------------------
         
@@ -398,7 +398,7 @@ def plot_results(sim_name,sim_time,
 if __name__ == "__main__":
     sim_name = 'SI_3'
     sim_time = 10
-    # run_motion_simulation(sim_name,sim_time)
+    run_motion_simulation(sim_name,sim_time)
     plot_results(sim_name,sim_time,
                  if_trajectory_tracking = True,
                  if_animation = True)

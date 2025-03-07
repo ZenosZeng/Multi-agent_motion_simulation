@@ -13,6 +13,17 @@ import os
 #     "font.family": "Helvetica"
 # })
 
+plt.rcParams['font.family'] = 'serif'
+plt.rcParams['font.serif'] = ['Times New Roman']
+plt.rcParams['axes.unicode_minus']=False
+plt.rcParams['text.usetex'] = True 
+
+# plt.rcParams['axes.titlesize'] = 18     # 坐标轴标题字体大小
+# plt.rcParams['axes.labelsize'] = 17     # 坐标轴标签字体大小
+# plt.rcParams['xtick.labelsize'] = 22    # x轴刻度字体大小
+# plt.rcParams['ytick.labelsize'] = 22    # y轴刻度字体大小
+# plt.rcParams['legend.fontsize'] = 25    # 图例大小
+
 
 # Unicycle Plotting and Animation ----------------------------------------------------------------
 
@@ -607,7 +618,10 @@ def plot_err( err_list,
         m = int(max_y // 2)
         plt.yticks(range(0,m*2+2,2))
     
-    plt.xticks(range(0,sim_time+2,2))
+    if sim_time < 16:
+        plt.xticks(range(0,sim_time+2,2))
+    else:
+        plt.xticks(range(0,sim_time+4,4))
 
     # plt.grid(True, linestyle='--')
     plt.tick_params(axis='both', direction='in')
@@ -648,128 +662,118 @@ def plot_err( err_list,
 
 
 
-plt.rcParams['font.family'] = 'serif'
-plt.rcParams['font.serif'] = ['Times New Roman']
-plt.rcParams['axes.unicode_minus']=False
 
-# plt.rcParams['axes.titlesize'] = 18     # 坐标轴标题字体大小
-# plt.rcParams['axes.labelsize'] = 17     # 坐标轴标签字体大小
-# plt.rcParams['xtick.labelsize'] = 22    # x轴刻度字体大小
-# plt.rcParams['ytick.labelsize'] = 22    # y轴刻度字体大小
-# plt.rcParams['legend.fontsize'] = 25    # 图例大小
-
-plt.rcParams['text.usetex'] = True 
 
 # main
-if __name__ == "__main__":  
-    # [ fig parameter setup ] ------------------------------
-    sim_time = 10
-    data_label = 'demo1'
-    if_trajectory_tracking = False
-    if_animation = True
-    # --------------------------------------------------------
+# if __name__ == "__main__":  
+#     # [ fig parameter setup ] ------------------------------
+#     sim_time = 10
+#     data_label = 'demo1'
+#     if_trajectory_tracking = False
+#     if_animation = True
+#     # --------------------------------------------------------
 
-    # create folder for figure
-    folder_path = f"./fig/{data_label}"
-    os.makedirs(folder_path, exist_ok=True) 
+#     # create folder for figure
+#     folder_path = f"./fig/{data_label}"
+#     os.makedirs(folder_path, exist_ok=True) 
 
-    # read motion data
-    with open(f'./log/{data_label}.json', "r") as f:
-        data = json.load(f)  
+#     # read motion data
+#     with open(f'./log/{data_label}.json', "r") as f:
+#         data = json.load(f)  
 
-    # output fig name
-    preffix = './fig/'+data_label+'/'
-    suffix = ''
+#     # output fig name
+#     preffix = './fig/'+data_label+'/'
+#     suffix = ''
 
-    # define ploting parameter
-    color_list = ['blue','green',
-                  'darkgrey','darkgrey','darkgrey','darkgrey']
+#     # define ploting parameter
+#     color_list = ['blue','green',
+#                   'darkgrey','darkgrey','darkgrey','darkgrey']
 
-    label_list = ['Leader','Co-Leader','Followers','x','x','x']
+#     label_list = ['Leader','Co-Leader','Followers','x','x','x']
 
-    drawtime_list = [3,6.14]
+#     drawtime_list = [3,6.14]
 
-    # ploting
+#     # ploting
 
-    # 1 trajectory
-    Plot_Trajectory('SI',
-                    data['trajectory'],
-                    color_list,label_list,data['edge_list'],drawtime_list,
-                    # trajectory_width=0.6,point_size=0.6,
-                    target_trajectory=\
-                        data['target_trajectory'] if if_trajectory_tracking else None,
-                    pltrange_xy = [-19,64,-14,29],
-                    if_label=True,
-                    Show=False,
-                    SavePath=preffix+'tra'+suffix+'.png' )
+#     # 1 trajectory
+#     Plot_Trajectory('SI',
+#                     data['trajectory'],
+#                     color_list,label_list,data['edge_list'],drawtime_list,
+#                     # trajectory_width=0.6,point_size=0.6,
+#                     target_trajectory=\
+#                         data['target_trajectory'] if if_trajectory_tracking else None,
+#                     pltrange_xy = [-19,64,-14,29],
+#                     if_label=True,
+#                     Show=False,
+#                     SavePath=preffix+'tra'+suffix+'.png' )
 
-    # 2 distance error
-    label_list = [ 'x' for a in range(len(data['distance_error'])-1) ]
-    label_list.append(r'$\|p_{ij}\|-d_{ij}$')
-    print(label_list)
+#     # 2 distance error
+#     label_list = [ 'x' for a in range(len(data['distance_error'])-1) ]
+#     label_list.append(r'$\|p_{ij}\|-d_{ij}$')
+#     print(label_list)
 
-    plot_err(data['distance_error'],
-             xy_label=['Time (s)','Distance error'],
-             line_width=0.8,
-             plt_label=label_list,
-             pltrange_x=[0,sim_time],
-             pltrange_y=[],
-             color_list=[],
-             SavePath=preffix+'err_d'+suffix+'.png')
+#     plot_err(data['distance_error'],
+#              xy_label=['Time (s)','Distance error'],
+#              line_width=0.8,
+#              plt_label=label_list,
+#              pltrange_x=[0,sim_time],
+#              pltrange_y=[],
+#              color_list=[],
+#              SavePath=preffix+'err_d'+suffix+'.png')
 
-    # 3 normalized error 
-    sigma_list = np.array([])
-    distance_err = np.array(data['distance_error'])
-    for i in range(len(distance_err[0])):
-        err = distance_err[:,i]
-        sigma_list = np.append(sigma_list, np.linalg.norm(err))
-    sigma_list /= sigma_list[0]
+#     # 3 normalized error 
+#     sigma_list = np.array([])
+#     distance_err = np.array(data['distance_error'])
+#     for i in range(len(distance_err[0])):
+#         err = distance_err[:,i]
+#         sigma_list = np.append(sigma_list, np.linalg.norm(err))
+#     sigma_list /= sigma_list[0]
 
-    label = [r'$\frac{\|\sigma(t)\|}{\|\sigma(0)\|}$' ]
-    print(label)
-    plot_err([sigma_list],
-             xy_label=['Time (s)','Normalized error'],
-             line_width=0.8,
-             plt_label=label,
-             pltrange_x=[0,sim_time],
-             pltrange_y=[-0.1,1.1],
-             color_list=['blue'],
-             SavePath=preffix+'err_n'+suffix+'.png')
+#     label = [r'$\frac{\|\sigma(t)\|}{\|\sigma(0)\|}$' ]
+#     print(label)
+#     plot_err([sigma_list],
+#              xy_label=['Time (s)','Normalized error'],
+#              line_width=0.8,
+#              plt_label=label,
+#              pltrange_x=[0,sim_time],
+#              pltrange_y=[-0.1,1.1],
+#              color_list=['blue'],
+#              SavePath=preffix+'err_n'+suffix+'.png')
 
-    # 4 orientation error
-    label = [r'$\left\| p_o-p^*_o(t) \right\|$']
-    print(label)
-    plot_err([data['orientation_error']],
-             xy_label=['Time (s)','Orientation error'],
-             line_width=0.8,
-             plt_label=label,
-             pltrange_x=[0,sim_time],
-             pltrange_y=[],
-             color_list=['blue'],
-             SavePath=preffix+'err_o'+suffix+'.png')
+#     # 4 orientation error
+#     label = [r'$\left\| p_o-p^*_o(t) \right\|$']
+#     print(label)
+#     plot_err([data['orientation_error']],
+#              xy_label=['Time (s)','Orientation error'],
+#              line_width=0.8,
+#              plt_label=label,
+#              pltrange_x=[0,sim_time],
+#              pltrange_y=[],
+#              color_list=['blue'],
+#              SavePath=preffix+'err_o'+suffix+'.png')
     
-    # 5 tracking error
-    if if_trajectory_tracking:
-        label = [r'$\| p_1-p^*(t) \|$']
-        print(label)
-        plot_err(data['tracking_error'],
-                xy_label=['Time (s)','Tracking error'],
-                line_width=0.8,
-                plt_label=label,
-                pltrange_x=[0,sim_time],
-                pltrange_y=[],
-                color_list=['blue'],
-                SavePath=preffix+'err_t'+suffix+'.png')
+#     # 5 tracking error
+#     if if_trajectory_tracking:
+#         label = [r'$\| p_1-p^*(t) \|$']
+#         print(label)
+#         plot_err(data['tracking_error'],
+#                 xy_label=['Time (s)','Tracking error'],
+#                 line_width=0.8,
+#                 plt_label=label,
+#                 pltrange_x=[0,sim_time],
+#                 pltrange_y=[],
+#                 color_list=['blue'],
+#                 SavePath=preffix+'err_t'+suffix+'.png')
 
-    # 6 Animation
-    if if_animation:
-        Animation_motion('SI',
-                        data['trajectory'],color_list,label_list,data['edge_list'],
-                        trajectory_width=0.6,
-                        point_size=0.6,
-                        target_trajectory=\
-                            data['target_trajectory'] if if_trajectory_tracking else None,
-                        Show=False,
-                        SavePath=preffix+'ani'+suffix+'.gif')
+#     # 6 Animation
+#     if if_animation:
+#         Animation_motion('SI',
+#                         data['trajectory'],color_list,label_list,data['edge_list'],
+#                         trajectory_width=0.6,
+#                         point_size=0.6,
+#                         target_trajectory=\
+#                             data['target_trajectory'] if if_trajectory_tracking else None,
+#                         Show=False,
+#                         SavePath=preffix+'ani'+suffix+'.gif')
 
-    print('All figs done.')
+#     print('All figs done.')
