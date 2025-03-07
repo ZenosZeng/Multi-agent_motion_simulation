@@ -1,0 +1,5 @@
+# log file should be ignored
+/log
+
+# ignore my own research file
+*sim
