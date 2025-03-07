@@ -1,5 +1,7 @@
+**/__pycache__
+
 # log file should be ignored
 /log
 
 # ignore my own research file
-*sim
+sim*
