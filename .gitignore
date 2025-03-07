@@ -1,0 +1,6 @@
+__pycache__/
+
+# ignore my own research file
+sim*
+log/*/ 
+!log/demo*/ 
