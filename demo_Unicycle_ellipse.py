@@ -1,8 +1,8 @@
-import numpy as np
-from matplotlib import pyplot as plt
-from math import cos,sin,pi,sqrt,atan2,tanh
 import json
 import os
+from math import cos,sin,pi,sqrt,atan2
+
+import numpy as np
 
 from Model.Unicycle import Unicycle
 from Plotter.Error_plot import Error_plot
@@ -14,11 +14,11 @@ def Saturation(x,bound):
     x_m = np.linalg.norm(x)
     if x_m > bound:
         return x/x_m*bound
-    else: 
+    else:
         return x
-    
-def tanh(x,bound):
-    return [bound*tanh(y) for y in x]
+
+# def tanh(x,bound):
+#     return [bound*tanh(y) for y in x]
 
 def Sgn(x):
     x = np.array(x)
@@ -52,7 +52,7 @@ def run_motion_simulation(sim_type,sim_name,sim_time,offset):
     total_step = int(total_seconds/time_step)
     frequency = int(1/time_step)
 
-    # create agent class and data_recorder 
+    # create agent class and data_recorder
     agent=[ Unicycle(dt=time_step) for i in range(num_agent) ]
 
     # 3d data list: trajectory_data [agent][state_dimension][value along time]
@@ -74,7 +74,7 @@ def run_motion_simulation(sim_type,sim_name,sim_time,offset):
                         [bian,bianxin,0,0,0,bian],
                         [bian,bianxin,0,0,bian,0],
                         [0,bianxin,0,bian,0,bian],
-                        [0,bianxin,bian,0,bian,0],        ] 
+                        [0,bianxin,bian,0,bian,0],        ]
 
     # autmatically identify the edges in the graph
     edge_list = []
@@ -139,7 +139,7 @@ def run_motion_simulation(sim_type,sim_name,sim_time,offset):
 
     for step in range(total_step):
         # reset the r vector, r_i = sum_j(p_ij*sigma_ij)
-        r = [ [0 for i in range(2)] for j in range(num_agent)]
+        r = [ [0 for i in range(dim_control)] for j in range(num_agent)]
 
         # current time /second
         time = step*time_step
@@ -262,8 +262,8 @@ def run_motion_simulation(sim_type,sim_name,sim_time,offset):
 
     # create folder for figure
     folder_path = f"./data/{sim_type}/{sim_name}"
-    os.makedirs(folder_path, exist_ok=True) 
-    
+    os.makedirs(folder_path, exist_ok=True)
+
     # save to json
     results = {
         "trajectory": np.array(trajectory_data).tolist(),
@@ -271,7 +271,7 @@ def run_motion_simulation(sim_type,sim_name,sim_time,offset):
         "orientation_error": np.array(orientation_error).tolist(),
         "edge_list": np.array(edge_list).tolist()
     }
-    
+
     with open(f'./data/{sim_type}/{sim_name}/motion_data.json', "w") as f:
         json.dump(results, f, indent=4)
 
