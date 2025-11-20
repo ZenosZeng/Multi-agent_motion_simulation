@@ -79,7 +79,7 @@ def Mecanum_trajectory(data,
     # Display target trajectory
     if target_trajectory is not None:
         ax.plot(target_trajectory[0], target_trajectory[1],
-                color='purple', label='Reference Trajectory',
+                color='purple', label='参考轨迹',
                 linewidth=trajectory_width * 1.2, linestyle='--', alpha=0.9)
 
     # Adjust drawtime_list
@@ -121,8 +121,8 @@ def Mecanum_trajectory(data,
 
     # Set axis
     ax.set_aspect(1)
-    plt.xlabel('x')
-    plt.ylabel('y')
+    plt.xlabel(r'$x$')
+    plt.ylabel(r'$y$')
     plt.tick_params(axis='both', direction='in', labelsize=12)
     plt.legend(fontsize=10, loc='best', frameon=True, edgecolor='black')
 

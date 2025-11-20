@@ -29,7 +29,7 @@ def Point3d_trajectory( data,
     # 3. 显示目标轨迹
     if target_trajectory is not None:
         ax.plot(target_trajectory[0], target_trajectory[1], target_trajectory[2],
-                color='purple', label='Reference Trajectory',
+                color='purple', label='参考轨迹',
                 linewidth=trajectory_width*1.2, linestyle='--')
 
     # 4. 绘制指定时间点的 agent 和连边
@@ -57,9 +57,9 @@ def Point3d_trajectory( data,
 
     # 5. 设置轴标签和范围
     ax.set_aspect('equal')
-    ax.set_xlabel('x',fontsize=12)
-    ax.set_ylabel('y',fontsize=12)
-    ax.set_zlabel('z',fontsize=12)
+    ax.set_xlabel(r'$x$',fontsize=12)
+    ax.set_ylabel(r'$y$',fontsize=12)
+    ax.set_zlabel(r'$z$',fontsize=12)
 
     ax.tick_params(axis='both', direction='in',)
 

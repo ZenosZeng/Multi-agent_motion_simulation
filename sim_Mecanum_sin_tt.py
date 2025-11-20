@@ -304,7 +304,7 @@ def plot_results(sim_type,sim_name,sim_time,
     color_list = ['blue','green',
                   'darkgrey','darkgrey','darkgrey','darkgrey']
 
-    label_list = ['Leader','Co-Leader','Followers','x','x','x']
+    label_list = ['领航者','协同领航者','跟随者','x','x','x']
 
     drawtime_list = [2.5,5,7.5]
 
@@ -327,36 +327,36 @@ def plot_results(sim_type,sim_name,sim_time,
     print(label_list)
 
     Error_plot(data['distance_error'],
-                xy_label=['Time (s)','Distance error'],
+                xy_label=['时间 (s)','距离误差（m）'],
                 plt_label=label_list,
                 save_path=preffix+'err_d'+fig_type,
                 x_range=[0,sim_time]
                 )
 
     # 3 normalized error 
-    sigma_list = np.array([])
-    distance_err = np.array(data['distance_error'])
-    for i in range(len(distance_err[0])):
-        err = distance_err[:,i]
-        sigma_list = np.append(sigma_list, np.linalg.norm(err))
-    sigma_list /= sigma_list[0]
+    # sigma_list = np.array([])
+    # distance_err = np.array(data['distance_error'])
+    # for i in range(len(distance_err[0])):
+    #     err = distance_err[:,i]
+    #     sigma_list = np.append(sigma_list, np.linalg.norm(err))
+    # sigma_list /= sigma_list[0]
 
-    label = [r'$\frac{\|\sigma(t)\|}{\|\sigma(0)\|}$' ]
-    print(label)
-    Error_plot([sigma_list],
-                xy_label=['Time (s)','Normalized error'],
-                plt_label=label,
-                save_path=preffix+'err_n'+fig_type,
-                x_range=[0,sim_time],
-                y_range=[-0.1,1.1],
-                color_list=['blue'],
-                )
+    # label = [r'$\frac{\|\sigma(t)\|}{\|\sigma(0)\|}$' ]
+    # print(label)
+    # Error_plot([sigma_list],
+    #             xy_label=['Time (s)','Normalized error'],
+    #             plt_label=label,
+    #             save_path=preffix+'err_n'+fig_type,
+    #             x_range=[0,sim_time],
+    #             y_range=[-0.1,1.1],
+    #             color_list=['blue'],
+    #             )
 
     # 4 orientation error
     label = [r'$\left\| p_o-p^*_o(t) \right\|$']
     print(label)
     Error_plot([data['orientation_error']],
-                xy_label=['Time (s)','Orientation error'],
+                xy_label=['时间 (s)','方向误差'],
                 plt_label=label,
                 save_path=preffix+'err_o'+fig_type,
                 x_range=[0,sim_time],
@@ -368,7 +368,7 @@ def plot_results(sim_type,sim_name,sim_time,
         label = [r'$\| p_1-p^*(t) \|$']
         print(label)
         Error_plot([data['tracking_error']],
-                    xy_label=['Time (s)','Tracking error'],
+                    xy_label=['时间 (s)','跟踪误差（m）'],
                     plt_label=label,
                     save_path=preffix+'err_t'+fig_type,
                     x_range=[0,sim_time],

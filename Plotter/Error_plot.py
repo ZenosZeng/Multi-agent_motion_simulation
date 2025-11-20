@@ -2,6 +2,10 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
+plt.rcParams['font.family'] = 'sans-serif'
+plt.rcParams['font.sans-serif'] = ['simsun']   # 使用宋体
+plt.rcParams['axes.unicode_minus'] = False     # 解决负号显示为方块的问题
+plt.rcParams['text.usetex'] = False
 
 def Error_plot( err_list, # 2-d list
                 xy_label,

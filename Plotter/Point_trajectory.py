@@ -2,10 +2,10 @@ from matplotlib import pyplot as plt
 import numpy as np
 import matplotlib.patches as patches
 
-plt.rcParams['font.family'] = 'serif'
-plt.rcParams['font.serif'] = ['Times New Roman']
-plt.rcParams['axes.unicode_minus']=False
-plt.rcParams['text.usetex'] = True 
+# plt.rcParams['font.family'] = 'serif'
+# plt.rcParams['font.serif'] = ['Times New Roman']
+# plt.rcParams['axes.unicode_minus']=False
+# plt.rcParams['text.usetex'] = False 
 
 def Point_trajectory(data,
                     color_list,label_list,edge_list,drawtime_list,
@@ -73,8 +73,8 @@ def Point_trajectory(data,
     ax.set_aspect(1)
 
     # plt.title('Trajectory')
-    plt.xlabel('x')
-    plt.ylabel('y')
+    plt.xlabel(r'$x$')
+    plt.ylabel(r'$y$')
     plt.tick_params(axis='both', direction='in',labelsize=12)
 
     plt.legend(fontsize=10, loc='best', frameon=True, edgecolor='black')
