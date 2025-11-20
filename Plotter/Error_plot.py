@@ -59,11 +59,11 @@ def Error_plot( err_list, # 2-d list
     if x_range != []:
         plt.xlim(x_range[0],x_range[1])
     if y_range != []:
-        plt.ylim(y_range[0],y_range[1])   
+        plt.ylim(y_range[0],y_range[1])
 
     plt.savefig(save_path,dpi=dpi, bbox_inches='tight', pad_inches=0.1)
     # plt.tight_layout()
-    plt.close()   
+    plt.close()
 
     print(xy_label[1]+' Ploted.')
     print('-'*30)

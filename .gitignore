@@ -1,11 +1,1 @@
 __pycache__/
-[old] log/
-
-# ignore my own research file
-sim*
-data/*/ 
-!data/demo*/ 
-
-test
-test*
-

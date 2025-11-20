@@ -2,7 +2,7 @@ from matplotlib.animation import FuncAnimation
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-def Point3d_animation(   data, 
+def Point3d_animation(  data, 
                         color_list,edge_list,
                         save_path,
                         trajectory_width=0.6, point_size=10,edge_width=0.5,
